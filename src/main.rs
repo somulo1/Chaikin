@@ -160,17 +160,19 @@ impl ChaikinCurve {
         }
     }
 
-    fn get_current_points(&self) -> &[Point2<f32>] {
+    fn get_current_points(&self) -> Vec<Point2<f32>> {
         if self.animating && !self.animation_steps.is_empty() {
-            &self.animation_steps[self.current_step]
+            // Return the current step of the animation
+            self.animation_steps[self.current_step].clone()
+        } else if self.control_points.len() >= 2 {
+            // Return just the control points when not animating
+            self.control_points.iter().map(|cp| cp.position).collect()
+        } else if self.control_points.len() == 1 {
+            // Return the single point
+            vec![self.control_points[0].position]
         } else {
-            if self.control_points.len() <= 1 {
-                // Return an empty slice if there are no points or just one point
-                &[]
-            } else {
-                // Return the original control points if not animating
-                &self.animation_steps[0]
-            }
+            // No points at all
+            vec![]
         }
     }
 }
