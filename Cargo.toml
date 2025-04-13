@@ -1,6 +1,8 @@
 [package]
-name = "chikin"
+name = "chaikin"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+minifb = "0.23"
+nalgebra = "0.32"
