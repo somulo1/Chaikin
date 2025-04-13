@@ -1,5 +1,5 @@
 use minifb::{Key, MouseButton, MouseMode, Scale, Window, WindowOptions};
-use nalgebra::{Point2, Vector2};
+use nalgebra::{Point2};
 use std::time::{Duration, Instant};
 
 const WIDTH: usize = 800;
@@ -103,8 +103,16 @@ impl ChaikinCurve {
             let p1 = points[i + 1];
 
             // Calculate 1/4 and 3/4 points (Chaikin's algorithm)
-            let q = p0 * 0.75 + p1 * 0.25;
-            let r = p0 * 0.25 + p1 * 0.75;
+            // Instead of adding points directly, we interpolate between them
+            let q = Point2::new(
+                p0.x * 0.75 + p1.x * 0.25,
+                p0.y * 0.75 + p1.y * 0.25
+            );
+            
+            let r = Point2::new(
+                p0.x * 0.25 + p1.x * 0.75,
+                p0.y * 0.25 + p1.y * 0.75
+            );
 
             result.push(q);
             result.push(r);
